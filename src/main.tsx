@@ -5,10 +5,26 @@ import './reset.css';
 import './style.css';
 
 const experiences = [
- {sentence:'I turn Figma designs into React components.',label:'React + TypeScript',detail:'I worked as Acronary’s Frontend Engineer. I implemented their entire Figma design in React components, gaining hands-on startup experience. I also build interfaces with TypeScript.'},
- {sentence:'I build fast, accessible interfaces.',label:'Accessibility',detail:'At Boston Children’s Hospital, I turned designs into fast, accessible interfaces. At Commonwealth Financial Network, I frequently worked with designers to turn Figma designs—and sometimes Word documents—into fully responsive, accessible websites.'},
- {sentence:'I care about getting the pixels right.',label:'Visual detail',detail:'I have a strong passion for creating pixel-right interfaces. I’ve enjoyed using visual inspection tools such as Chromium, especially the green differential view for spotting differences.'},
- {sentence:'I work with backend engineers to ship features.',label:'End to end',detail:'At Acronary, I worked directly with the CTO, who handled the backend, to ship features end to end. I connected the React interface with the backend as we brought features into the product.'},
+  {
+    "sentence": "I’ve turned designs into React components",
+    "label": "React",
+    "detail": "I worked at a startup called Acronary as the sole Frontend Engineer. I implemented their entire Figma design in React components, including components and functionality that were needed when the design mockup fell short."
+  },
+  {
+    "sentence": "I’ve built fast, accessible interfaces",
+    "label": "Accessibility",
+    "detail": "At Boston Children’s Hospital, I turned designs into fast, accessible interfaces, constructing WordPress and Drupal templates using PHP, JavaScript, semantic HTML and ARIA attributes. At Commonwealth Financial Network, I frequently worked with designers to turn Figma designs into fully responsive, accessible websites."
+  },
+  {
+    "sentence": "I love getting the pixels right",
+    "label": "Visual detail",
+    "detail": "I have a strong passion for creating pixel-right interfaces. I’ve enjoyed using visual inspection tools such as Chromium, especially the green differential view for spotting differences. I’m also unafraid of cracking into the Dev Toolkit and inspecting computed styles."
+  },
+  {
+    "sentence": "I’ve worked with backend engineers to ship features",
+    "label": "End to end",
+    "detail": "At Acronary, I worked directly with the CTO, who handled the backend, to ship features end to end. I connected the React interface with the Python FastAPI backend as we brought features into the product."
+  }
 ];
 const CHARACTER_INTERVAL_MS = 55;
 const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL || '';
@@ -30,7 +46,7 @@ function App(){
  const [isFocused,setIsFocused]=useState(false);
  const [message,setMessage]=useState('');
  const [replyEmail,setReplyEmail]=useState('');
- const [formOpened,setFormOpened]=useState(false);
+ const [emailValid,setEmailValid]=useState(false);
  const [submission,setSubmission]=useState<'idle'|'sending'|'success'|'error'>('idle');
  async function submitMessage(event:FormEvent<HTMLFormElement>){
   // Other static hosts use a native POST to the live Netlify form.
@@ -45,7 +61,7 @@ function App(){
    new FormData(form).forEach((value,key)=>data.append(key,String(value)));
    const response=await fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data.toString()});
    if(!response.ok)throw new Error('Submission failed');
-   setSubmission('success');setMessage('');setReplyEmail('');setFormOpened(false);
+   setSubmission('success');setMessage('');setReplyEmail('');setEmailValid(false);
   }catch{setSubmission('error')}
  }
 
@@ -72,11 +88,11 @@ function App(){
  <header><a className="wordmark" href="#main"><span>Vote for </span>Johnny!</a><ThemeToggle/></header>
  <main id="main"><section className="hero" aria-labelledby="intro-heading">
  <h1 id="intro-heading">Hi Matcha, I’m Johnny.</h1>
- <p className="intro">I’m a software engineer who cares about clear interfaces.<br className="desktop-break"/> I built this introduction with React and TypeScript for Matcha.</p>
+ <p className="intro">I’m a frontend engineer who cares about clear interfaces.<br className="desktop-break"/> I built this introduction with React, TypeScript, via ChatGPT.</p>
  <p className="summary"><svg className="summary-sprig" width="16" height="16" viewBox="0 0 12 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 21c0 0-2-3-2-8c0-4 1-7 2-9"/><path d="M7.5 12.5C6 11 4.5 10 3 10c0 0 1 3 4.5 5"/><path d="M7 16c-1.5-1-3-1.5-4-1.5c0 0 .5 2.5 4 4"/><path d="M8.5 9C7 7.5 5 6.5 3.5 6.5c0 0 .5 2.5 5 4.5"/></svg><span>Frontend engineer<span className="summary-divider"> · </span><br className="summary-break"/>Salem, Massachusetts</span><svg className="summary-sprig summary-sprig-mirrored" width="16" height="16" viewBox="0 0 12 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M10 21c0 0-2-3-2-8c0-4 1-7 2-9"/><path d="M7.5 12.5C6 11 4.5 10 3 10c0 0 1 3 4.5 5"/><path d="M7 16c-1.5-1-3-1.5-4-1.5c0 0 .5 2.5 4 4"/><path d="M8.5 9C7 7.5 5 6.5 3.5 6.5c0 0 .5 2.5 5 4.5"/></svg></p>
  <form id="contact" className="contact-form" name="contact" method="POST" action="https://johnny-for-matcha.netlify.app/thank-you/" data-netlify="true" netlify-honeypot="bot-field" onSubmit={submitMessage}><input type="hidden" name="form-name" value="contact"/><p className="contact-honeypot"><label>Leave this empty<input name="bot-field" tabIndex={-1} autoComplete="off"/></label></p><div className="type-panel"><div className="panel-heading"><h2>A little about what I do</h2></div>
- <div className="typing-body"><textarea name="message" required maxLength={5000} aria-label="Message to Johnny" placeholder={isFocused?'Dear Johnny, I love the ambition. Do you have time this week for a 30min chat?':''} value={message} onChange={event=>setMessage(event.target.value)} onFocus={()=>{setIsFocused(true);setFormOpened(true);if(submission!=="sending")setSubmission("idle")}} onBlur={()=>setIsFocused(false)}/>{!isFocused&&!message&&<p className="typed" aria-hidden="true">{reducedMotion?current.sentence:current.sentence.slice(0,length)}<span className={reducedMotion?'cursor still':'cursor'}/></p>}<p className="sr-only">{experiences.map(item=>item.sentence).join(' ')}</p></div>{(formOpened||message)&&<div className="contact-details"><label htmlFor="reply-email">Your email<input id="reply-email" name="email" type="email" autoComplete="email" required maxLength={254} value={replyEmail} onChange={event=>setReplyEmail(event.target.value)}/></label><button className="send-message" type="submit" disabled={submission==='sending'}>{submission==='sending'?'Sending…':'Send message'}</button></div>}</div><p className="contact-status" role="status" aria-live="polite">{submission==='success'?'Thanks! Your message has been submitted.':submission==='error'?'Your message could not be sent. Please try again.':''}</p></form>
- <nav className="topics" aria-label="Experience topics">{experiences.map((item,i)=><a key={item.label} href={'#experience-'+i} onClick={event=>{event.preventDefault();openExperience('experience-'+i)}}><span className="topic-number">0{i+1}</span><span>{item.label}</span></a>)}</nav>
+ <div className="typing-body compact-contact"><div className="message-area"><textarea name="message" required maxLength={5000} aria-label="Message to Johnny" placeholder={isFocused?'Dear Johnny, I love the ambition. Do you have time this week for a 30min chat?':''} value={message} onChange={event=>setMessage(event.target.value)} onFocus={()=>{setIsFocused(true);if(submission!=="sending")setSubmission("idle")}} onBlur={()=>setIsFocused(false)}/>{!isFocused&&!message&&<p className="typed" aria-hidden="true">{reducedMotion?current.sentence:current.sentence.slice(0,length)}<span className={reducedMotion?'cursor still':'cursor'}/></p>}<p className="sr-only">{experiences.map(item=>item.sentence).join(' ')}</p></div><div className="email-area"><label className="sr-only" htmlFor="reply-email">Your email</label><input id="reply-email" name="email" type="email" autoComplete="email" placeholder="Your email" required maxLength={254} value={replyEmail} onChange={event=>{setReplyEmail(event.target.value);setEmailValid(event.target.validity.valid)}}/><button className="send-email" type="submit" disabled={!message.trim()||!replyEmail.trim()||!emailValid||submission==='sending'} aria-label={submission==='sending'?'Sending message':'Send message'} title={submission==='sending'?'Sending message':'Send message'}><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.91 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg></button></div></div></div><p className="contact-status" role="status" aria-live="polite">{submission==='success'?'Thanks! Your message has been submitted.':submission==='error'?'Your message could not be sent. Please try again.':''}</p></form>
+ <nav className="topics" aria-label="Experience topics">{experiences.map((item,i)=><a key={item.label} href={'#experience-'+i} onClick={event=>{event.preventDefault();openExperience('experience-'+i)}}><span className="topic-number">{i+1}</span><span>{item.label}</span></a>)}</nav>
  <div className="actions"><button className="text-link" aria-expanded={showExperience} aria-controls="experience" onClick={()=>{if(showExperience)setShowExperience(false);else openExperience("experience")}}>{showExperience?"Hide my experience":"Read my experience"}</button>{CONTACT_EMAIL&&<a className="text-link" href={"mailto:"+CONTACT_EMAIL}>Email me</a>}</div>
  </section>
  {showExperience&&<section className="experience" tabIndex={-1} id="experience" aria-labelledby="experience-heading"><h2 id="experience-heading">My experience</h2>{experiences.map(item=><article key={item.label} id={"experience-"+experiences.indexOf(item)} tabIndex={-1}><h3>{item.sentence}</h3><p>{item.detail}</p></article>)}</section>}

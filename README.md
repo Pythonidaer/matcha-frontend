@@ -38,3 +38,6 @@ Matcha's stylesheet requests the 400 and 700 JetBrains Mono files, although its 
 Matcha's single-family typography and green/white/gray interface informed the design. This is an independent personal demo. The paired sprigs are supplied Matcha SVG references. GitHub icon geometry comes from MUI Icons (MIT). JetBrains Mono is licensed under SIL OFL 1.1; see `public/OFL.txt`.
 
 Typing/deleting both use 55ms per character. Focus displays the custom message placeholder; blur resumes the animation when empty. Reduced-motion shows complete text. Experience starts hidden and opens/scrolls from the disclosure or topic links. Theme follows system settings until manually overridden. Mobile declarations follow Matcha's 640/1024px steps; rendered mobile comparison remains for the owner to perform.
+
+
+Production revision: promoted the compact fixed-height contact form and wider experience paragraphs from the Sites experiment. Topic labels are 1–4 and React. Updated experience headings and frontend introduction per owner. Gmail symbol from Simple Icons 14.0.0 (CC0). Form button enables only when both the message and email are valid. The reply email stays inside the original input surface; focusing does not expand it.
