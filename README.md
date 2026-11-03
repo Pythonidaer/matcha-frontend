@@ -17,17 +17,21 @@ In Settings → Pages, select GitHub Actions as the source. The included workflo
 
 ## Netlify
 
-Import this GitHub repository in Netlify. Select `main`, build command `npm run build`, publish directory `dist`. `netlify.toml` already supplies build settings. Netlify uses the root base path. Once the final Netlify URL is chosen, update the canonical/Open Graph/social URLs in `index.html` to that origin.
+Import this GitHub repository in Netlify. Select `main`, build command `npm run build`, publish directory `dist`. `netlify.toml` already supplies build settings. Netlify uses the root base path. Canonical/Open Graph/social URLs point to https://johnny-for-matcha.netlify.app/.
 
-## Contact form: next step
+## Contact form
 
-The animated field is currently a demo, not a submission form. It never sends messages. Set `VITE_CONTACT_EMAIL` in your hosting environment to show the optional Email me link. This value is exposed in the built page, so use an address intended for visitors.
+The typing area becomes a contact form on focus: a reply email field and Send message button appear. A hidden `contact` blueprint in the initial HTML allows Netlify form detection. Fields are `form-name`, `bot-field` (honeypot), `email`, and `message`. Only visitor-entered text is submitted; the animation is decorative.
 
-After deployment, enable Netlify Forms detection and add a form named `contact` to both the React UI and the initial static HTML. The static hidden blueprint must contain matching fields: `form-name`, `email`, `message`, and a honeypot. Give the visible textarea `name="message"`, add a labeled reply email field and Send message button. POST URL-encoded data to `/` with `form-name=contact`; show success only after an accepted response, preserve input on failure. Keep typewriter text as a decorative overlay rather than submitted content.
+On the canonical Netlify host, submissions use URL-encoded POST to `/` and show success only after an accepted response. Errors preserve the message. On other static hosts, a normal browser form POST goes to the Netlify thank-you URL. The static thank-you page provides a return link. No receiving email address is embedded in source.
 
-Redeploy, then open Forms → Submission notifications → Add notification → Email notification and enter your receiving email address. Test a real message on the Netlify URL, verify it in Forms and in the inbox, and check Spam submissions if absent. Notifications deliver copies to the owner; visitors should see an on-page confirmation, not a redirect to an email address. Netlify processing is unavailable on GitHub Pages and the separate Sites deployment.
+Enable Forms detection, deploy, and configure Forms → Submission notifications → Email notification. The receiving address must be associated with an active Netlify team member. Test on the Netlify URL and verify Forms submissions and inbox delivery. If absent, check Spam submissions. Email delivery is managed by Netlify; a successful HTTP response is not proof of inbox delivery.
 
 Official documentation: https://docs.netlify.com/manage/forms/setup/ and https://docs.netlify.com/manage/forms/notifications/
+
+## Font matching
+
+Matcha's stylesheet requests the 400 and 700 JetBrains Mono files, although its hero CSS specifies weight 800. The browser chooses the available 700 face for that request. This demo now maps weights 600–800 to the locally hosted 700 file so its heading no longer uses the heavier true 800 face. The CSS hero weight remains 800. This explains why matching computed family/weight alone previously produced a different result.
 
 ## Reference and behavior
 
