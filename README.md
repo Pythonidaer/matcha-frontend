@@ -21,11 +21,11 @@ Import this GitHub repository in Netlify. Select `main`, build command `npm run 
 
 ## Contact form: next step
 
-The animated field is currently a demo, not a submission form. It never sends messages. Email me opens the visitor's email app.
+The animated field is currently a demo, not a submission form. It never sends messages. Set `VITE_CONTACT_EMAIL` in your hosting environment to show the optional Email me link. This value is exposed in the built page, so use an address intended for visitors.
 
 After deployment, enable Netlify Forms detection and add a form named `contact` to both the React UI and the initial static HTML. The static hidden blueprint must contain matching fields: `form-name`, `email`, `message`, and a honeypot. Give the visible textarea `name="message"`, add a labeled reply email field and Send message button. POST URL-encoded data to `/` with `form-name=contact`; show success only after an accepted response, preserve input on failure. Keep typewriter text as a decorative overlay rather than submitted content.
 
-Redeploy, then open Forms → Submission notifications → Add notification → Email notification and enter JHJonathanHammond@gmail.com. Test a real message on the Netlify URL, verify it in Forms and in the inbox, and check Spam submissions if absent. Notifications deliver copies to the owner; visitors should see an on-page confirmation, not a redirect to an email address. Netlify processing is unavailable on GitHub Pages and the separate Sites deployment.
+Redeploy, then open Forms → Submission notifications → Add notification → Email notification and enter your receiving email address. Test a real message on the Netlify URL, verify it in Forms and in the inbox, and check Spam submissions if absent. Notifications deliver copies to the owner; visitors should see an on-page confirmation, not a redirect to an email address. Netlify processing is unavailable on GitHub Pages and the separate Sites deployment.
 
 Official documentation: https://docs.netlify.com/manage/forms/setup/ and https://docs.netlify.com/manage/forms/notifications/
 
