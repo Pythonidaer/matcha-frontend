@@ -95,3 +95,6 @@ h1{font-size:24px;line-height:33px;letter-spacing:-.6px}
 [data-theme="dark"] .topic-icon{color:#f4f4f5}
 
 [data-theme="dark"] .typing-body textarea:focus-visible{outline-color:#86efac}
+
+/* Give the mobile summary nearly the same width as the form. */
+@media(max-width:639px){.summary{width:calc(100% - 8px)}.summary>span{flex:1;min-width:0}}
