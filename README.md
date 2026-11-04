@@ -58,3 +58,19 @@ The GitHub Actions workflow runs the same checks on pull requests to main and pu
 To prevent merging a failing PR or bypassing PR review, configure a GitHub branch ruleset for main requiring a pull request and the **Quality checks** status check. A workflow alone does not prevent direct pushes or merges. Repository instructions guide assistants but do not enforce repository permissions.
 
 Prettier handles formatting; ESLint handles code-quality rules with conflicting formatting rules disabled. The initial React checks enforce rules-of-hooks and exhaustive-deps; this is not the entire React Compiler-oriented recommended preset. TypeScript's strict compiler check remains in the build. Type-aware linting and interaction tests can be added separately. Accessibility linting can be added when its plugins support the selected ESLint major version; keyboard and assistive-technology review remain necessary. Public assets and generated build files are excluded from formatting.
+
+## Source organization
+
+`src/main.tsx` mounts React and imports the global styles. `src/App.tsx` composes the page and coordinates experience visibility and focus.
+
+| Location                                     | Responsibility                                      |
+| -------------------------------------------- | --------------------------------------------------- |
+| `src/components/ThemeToggle.tsx`             | Theme preference, browser subscription and control  |
+| `src/components/contact/ContactForm.tsx`     | Contact fields, validation and submission status    |
+| `src/components/contact/useTypingPreview.ts` | Pausable typing animation and timer cleanup         |
+| `src/components/ExperienceHighlights.tsx`    | Summary labels and icons                            |
+| `src/components/ExperienceSection.tsx`       | Expanded experience details                         |
+| `src/data/experiences.ts`                    | Typed content, stable IDs and associated icon paths |
+| `src/hooks/useReducedMotion.ts`              | Browser motion preference and listener cleanup      |
+
+State stays with its owning feature. Only the experience reveal is coordinated by App. The contact-specific hook stays next to its consumer; the browser preference hook is independent of the form. Global CSS remains in its existing files.
