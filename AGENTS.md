@@ -1,3 +1,11 @@
+# Code quality workflow
+
+For code changes, work on a feature branch and open a pull request for review before merging into main. Read the applicable guidance from https://github.com/Pythonidaer/llm-instruction-toolkit/blob/main/README.md, including code-style-guide/typescript and Clean Code guidance.
+
+Before committing, run `npm run format` and inspect the diff for unintended content or behavior changes. Before pushing, run `npm run check` (format verification, lint, type checking and production build). Fix findings rather than disabling rules to obtain a green check. Report any remaining failures accurately. CI verifies formatting; it does not rewrite or auto-commit source files.
+
+Keep mechanical formatting separate from architecture or behavior changes. A successful check does not replace keyboard, visual or affected interaction review. Do not merge or deploy a pull request without authorization.
+
 # Publishing
 
 Before deploying this website, apply the LLM Instruction Toolkit's https://github.com/Pythonidaer/llm-instruction-toolkit/blob/main/design/publishing/link-previews.md. Prepare appropriate page metadata and share images, preserve the intended audience and indexing policy, and verify the deployed URLs. Report platform-preview verification separately from implementation.
